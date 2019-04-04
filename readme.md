@@ -1,12 +1,19 @@
-Простой класс для отлавливания и обработки ошибок в PHP.
+Простой класс обработки ошибок в PHP.
 =====================
 
 Класс отлавливает ошибки с помощью функций:
-set_error_handler
-set_exception_handler
-register_shutdown_function
++ set_error_handler
++ set_exception_handler
++ register_shutdown_function
 
-Обработать их (записать в логи и т.п.) можно в callback, который нужно передать в метод register.
+Обработать их (записать в логи, вывести html-шаблон и т.п.) можно в callback, который нужно передать в метод register.
+
+Установка
+-----------------------------------
+
+```
+composer require programulin/errors-handler
+```
 
 Примеры
 -----------------------------------
@@ -19,7 +26,7 @@ use Programulin\ErrorHandler;
 $handler = new ErrorHandler();
 
 $callback = function($message){
-	// Здесь можно записать ошибку в логи (например, с помощью Monolog)
+	// Здесь можно записать ошибку в логи (например, с помощью Monolog) и вывести html-шаблон
 	var_dump($message);
 };
 
