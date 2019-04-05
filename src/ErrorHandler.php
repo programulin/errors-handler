@@ -28,6 +28,14 @@ class ErrorHandler
 	
 	public function errorToExceptionHandler($errno, $message, $file, $line)
 	{
+		/*
+			error_reporting() возвращает 0, если ошибка была вызвана с подавлением оператором @
+			Не возвращаем false, чтобы ошибка не перенеслась в обработчик фатальных ошибок
+		*/
+		if(error_reporting() === 0)
+			return;
+
+		// Передаём ошибку стандартному обработчику PHP
 		if(!$this->isHandlingAllowed($errno))
 			return false;
 
@@ -42,14 +50,12 @@ class ErrorHandler
 		{
 			if(!$this->isHandlingAllowed($error['type']))
 				return;
-			
+
 			$message = "Fatal: {$error['message']} in {$error['file']} on line {$error['line']}";
 			$this->runCallback($message);
 		}
 	}
 
-	
-	
 	public function exceptionHandler($e)
 	{
 		$this->runCallback((string) $e);
